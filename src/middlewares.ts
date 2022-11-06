@@ -54,13 +54,13 @@ class Middlewares {
 
   public initializeMiddlewares: Middleware['initializeMiddlewares'] = (config) => {
     const {
-      LOG_FORMAT, CREDENTIALS,
+      LOG_FORMAT,
     } = config;
     const stream = this.#stream;
 
     const corsOptions: CorsOptions = {
       origin: '*',
-      credentials: CREDENTIALS,
+      credentials: false,
     };
 
     this.#app.use(morgan(LOG_FORMAT, { stream }));
