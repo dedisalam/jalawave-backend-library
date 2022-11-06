@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import type { CorsOptions } from 'cors';
 import type winston from 'winston';
 import type { Application } from 'express';
 import type Middleware from './interfaces';
@@ -53,12 +54,24 @@ class Middlewares {
 
   public initializeMiddlewares: Middleware['initializeMiddlewares'] = (config) => {
     const {
-      LOG_FORMAT, ORIGIN, CREDENTIALS,
+      LOG_FORMAT, CREDENTIALS,
     } = config;
     const stream = this.#stream;
 
+    const whitelist = ['http://202.51.232.124:5000', 'http://202.51.232.124:5001'];
+    const corsOptions: CorsOptions = {
+      origin(origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: CREDENTIALS,
+    };
+
     this.#app.use(morgan(LOG_FORMAT, { stream }));
-    this.#app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
+    this.#app.use(cors(corsOptions));
     this.#app.use(hpp());
     this.#app.use(helmet());
     this.#app.use(compression());
