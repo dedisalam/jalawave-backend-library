@@ -1,0 +1,67 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@typescript-eslint/class-literal-property-style": ["error", "fields"],
+    "@typescript-eslint/consistent-generic-constructors": [
+      "error",
+      "constructor"
+    ],
+    "@typescript-eslint/consistent-indexed-object-style": [
+      "error",
+      "index-signature"
+    ],
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+    "@typescript-eslint/consistent-type-exports": [
+      "error",
+      { "fixMixedExportsWithInlineTypeSpecifier": false }
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      { "prefer": "type-imports", "disallowTypeAnnotations": true }
+    ],
+    "@typescript-eslint/type-annotation-spacing": "error",
+    "@typescript-eslint/ban-types": "error",
+    "@typescript-eslint/prefer-function-type": "error",
+    "@typescript-eslint/sort-type-union-intersection-members": "error",
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/member-ordering": [
+      "error",
+      { "default": ["signature", "field", "constructor", "method"] }
+    ],
+    "import/newline-after-import": ["error", { "count": 1 }],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "index",
+          "sibling",
+          "parent",
+          "internal",
+          "external",
+          "builtin",
+          "object",
+          "type"
+        ]
+      }
+    ]
+  }
+}
