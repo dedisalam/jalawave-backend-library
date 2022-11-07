@@ -1,11 +1,8 @@
 import morgan from 'morgan';
-import cors from 'cors';
 import hpp from 'hpp';
-import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import type { CorsOptions } from 'cors';
 import type winston from 'winston';
 import type { Application } from 'express';
 import type Middleware from './interfaces';
@@ -58,15 +55,8 @@ class Middlewares {
     } = config;
     const stream = this.#stream;
 
-    const corsOptions: CorsOptions = {
-      origin: '*',
-      credentials: false,
-    };
-
     this.#app.use(morgan(LOG_FORMAT, { stream }));
-    this.#app.use(cors(corsOptions));
     this.#app.use(hpp());
-    this.#app.use(helmet());
     this.#app.use(compression());
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
