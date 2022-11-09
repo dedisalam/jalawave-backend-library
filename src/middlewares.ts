@@ -57,7 +57,7 @@ class Middlewares {
 
     this.#app.use(morgan(LOG_FORMAT, { stream }));
     this.#app.use(hpp());
-    this.#app.use(compression());
+    this.#app.use(compression({ threshold: 0 }));
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
     this.#app.use(cookieParser());
