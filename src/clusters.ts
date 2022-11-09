@@ -1,5 +1,6 @@
 import { cpus } from 'os';
 import cluster from 'cluster';
+import https from 'https';
 import type { Application } from 'express';
 import type winston from 'winston';
 
@@ -12,20 +13,25 @@ class Cluster {
 
   #port: number | string;
 
+  #serverOption: https.ServerOptions;
+
   constructor(
     app: Application,
     logger: winston.Logger,
     config: { env: string, port: number | string },
+    serverOption: https.ServerOptions,
   ) {
     this.#app = app;
     this.#logger = logger;
     this.#env = config.env;
     this.#port = config.port;
+    this.#serverOption = serverOption;
   }
 
   public listen(): void {
+    const server = https.createServer(this.#serverOption, this.#app);
     if (this.#env === 'development') {
-      this.#app.listen(this.#port, () => {
+      server.listen(this.#port, () => {
         this.#logger.info(`🚀 App listening on pid ${process.pid} and the port ${this.#port}`);
       });
     }
@@ -41,7 +47,7 @@ class Cluster {
           cluster.fork();
         });
       } else {
-        this.#app.listen(this.#port, () => {
+        server.listen(this.#port, () => {
           this.#logger.info(`🚀 App listening on pid ${process.pid} and the port ${this.#port}`);
         });
       }
