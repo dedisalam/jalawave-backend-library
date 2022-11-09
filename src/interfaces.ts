@@ -11,8 +11,6 @@ interface Error {
 }
 interface Config {
   LOG_FORMAT: string
-  ORIGIN: string
-  CREDENTIALS: boolean
 }
 interface Routes {
   path?: string;
